@@ -21,7 +21,12 @@ def createList(phrase):
     return letters
 
 def checkForLetters(stringList, badList):
-    pass
+    for i in stringList:
+        for j in badList:
+            print(i, j)
+            if i == j:
+                stringList.remove(j)
+    return stringList
 
 def removeLetter(stringList, badLetter):
     pass
@@ -32,8 +37,8 @@ def main():
     phrase = ""
     badLetters = ""
     phrase, badLetters = getInput(phrase, badLetters)
-    checkForLetters(phrase, badLetters)
-
+    redacted = checkForLetters(phrase, badLetters)
+    print(redacted)
 
     # YOUR CODE ENDS HERE
 
