@@ -5,40 +5,64 @@
 #Student #:     w0500154
 #Student Name:  Joseph Petrash
 
-
-
-def getInput(phrase, badLetters):
+# INPUT -------------------------------------------
+# ask user for phrase to redact from
+def getPhrase():
     phrase = input("Type a phrase (or quit to exit program): ")
+    return phrase
+
+# ask user for letters to radact
+def getBadLetters():
     badLetters = input("Type a comma-separated list of letters to redact: ")
-    phrase = createList(phrase)
-    badLetters = createList(badLetters)
-    return phrase, badLetters
+    # remove commas and spaces from the list
+    #  so that it contains only letters
+    badLetters = badLetters.replace(",", "")
+    badLetters = badLetters.replace(", ", "")
+    badLetters = badLetters.replace(" ", "")
+    return badLetters
 
-def createList(phrase):
-    letters = []
-    for i in phrase:
-        letters.append(i)
-    return letters
+# PROCESS ---------------------------------------------
+# compare each letter in each string and 
+#   remove instances where they match
+def checkPhrase(phrase, badLetters):
+    # keep track of how many letters are removed
+    count = 0
+    # go through every letter in phrase
+    for letter in phrase:
+        # go through ever letter to be redacted
+        for badLetter in badLetters:
+            # if they are the same
+            if letter == badLetter:
+                # replace both the upper and lowercase
+                #  letter with an underscore
+                phrase = phrase.replace(letter.upper(), "_")
+                phrase = phrase.replace(letter.lower(), "_")
+                count += 1
+    return phrase, count
 
-def checkForLetters(stringList, badList):
-    for i in stringList:
-        for j in badList:
-            print(i, j)
-            if i == j:
-                stringList.remove(j)
-    return stringList
-
-def removeLetter(stringList, badLetter):
-    pass
+# OUPUT -------------------------------------------------
+# output string to the user
+def outputPhrase(phrase, count):
+    print("Number of letters removed {0}".format(count))
+    print(phrase)
 
 def main():
     # YOUR CODE STARTS HERE, each line must be indented (one tab)
-
-    phrase = ""
-    badLetters = ""
-    phrase, badLetters = getInput(phrase, badLetters)
-    redacted = checkForLetters(phrase, badLetters)
-    print(redacted)
+    # loop forever
+    while True:
+        # ask for phrase
+        phrase = getPhrase()
+        # if user enters exit, exit the loop
+        if phrase == "exit":
+            print("Closing program...")
+            return
+        # ask for bad letters
+        badLetters = getBadLetters()
+        # remove letters from phrase and return how 
+        #   many letters were removed
+        phrase, count = checkPhrase(phrase, badLetters)
+        #output to the user
+        outputPhrase(phrase, count)
 
     # YOUR CODE ENDS HERE
 
